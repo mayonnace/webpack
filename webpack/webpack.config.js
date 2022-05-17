@@ -8,7 +8,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, "/dist"),
     filename: "bundle.js",
-    publicPath: "/"
+    publicPath: "/",
+    assetModuleFilename: "assets/img/[hash][ext][query]"
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -18,6 +19,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: "process/browser",
       Buffer: ['buffer', 'Buffer'],
+    }),
+    new HTMLWebpackPlugin({
+      template: './src/index.html',
+      favicon:"./src/assets/img/logo.ico",
     }),
   ],
   module: {
@@ -34,12 +39,17 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [                  {                    
-          loader: MiniCssExtractPlugin.loader,                                       
-          options: { publicPath: "" },
-        },                  
-        "css-loader",                                                  
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: "" },
+          },
+          "css-loader"
         ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset"
       },
     ]
   },
@@ -62,5 +72,9 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
       url: require.resolve("url/"),
     },
+  },
+  proxy: {
+    '/api': 'http://localhost:8000',
+    changeOrigin: true,
   },
 }
