@@ -28,7 +28,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: [["@babel/preset-env", {targets: "defaults", "debug": true, "useBuiltIns": "usage"}], ["@babel/preset-react", {runtime: "automatic"}]]
+            presets: [["@babel/preset-env", {targets: "defaults", "debug": true, "useBuiltIns": "usage", "corejs": 3}], ["@babel/preset-react", {runtime: "automatic"}]]
           }
         }
       },
